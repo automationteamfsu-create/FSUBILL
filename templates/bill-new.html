@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Report</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: #000;
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: 10rem 1fr;
+      grid-template-rows: 7rem 1fr 7rem;
+      width: 210mm;
+      height: 297mm;
+      max-width: 90vw;
+      max-height: 90vh;
+      margin: 2rem auto;
+      border: 0.2rem solid #404160;
+      background: white;
+      aspect-ratio: 1 / 1.414;
+    }
+
+    /* Grid areas */
+    .top-left {
+      grid-column: 1;
+      grid-row: 1;
+      background-color: white;
+      border-right: 0.15rem solid #1f2a5a;
+      border-bottom: 0.15rem solid #1f2a5a;
+    }
+
+    .top-right {
+      grid-column: 2;
+      grid-row: 1;
+      background-color: #404160;
+      border-bottom: 0.15rem solid #1f2a5a;
+    }
+
+    .middle-left {
+      grid-column: 1;
+      grid-row: 2;
+      background-color: white;
+      border: 0.15rem solid #1f2a5a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      padding: 2rem 1rem;
+      position: relative;
+    }
+
+    .middle-left .title {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-weight: bold;
+      font-size: 2rem;
+      color: #1f2a5a;
+      margin-top: 2rem;
+      letter-spacing: 0.05em;
+      order: 2;
+      position: relative;
+      z-index: 1;
+    }
+
+    .middle-left .subtitle {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-size: 1.7rem;      
+      color: #1f2a5a;
+      line-height: 1.4;
+      order: 1;
+      position: relative;
+      z-index: 1;
+    }
+
+    .middle-left .subtitle .union-name {
+      font-weight: bolder;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .middle-left .subtitle .campus {
+      font-size: 1.5rem;
+    }
+
+    .middle-left .subtitle .location {
+      font-size: 0.7rem;
+    }
+
+    .middle-right {
+      grid-column: 2;
+      grid-row: 2;
+      background-color: white;
+      border-bottom: 0.15rem solid #1f2a5a;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 0;
+      overflow: hidden;
+      position: relative;
+    }
+    .middle-right img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60%;
+      height: auto;
+      opacity: 0.08;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .content {
+      padding: 2rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 1;
+    }
+
+    #billTitle{
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin: 1.5rem 0 0.5rem 0;
+      color: #000;
+
+    }
+    
+    #billDate{
+      text-align: right;
+      padding: 1.5rem;
+      font-weight: bold;
+      font-size: 1rem;
+      margin: 0 0 1.5rem 0;
+      color: #ca2626;
+    }
+
+    #itemTable{
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 0;
+      font-family: Arial, sans-serif;
+      border: 1px solid #eee;
+    }
+    
+    #itemTable th {
+      padding: 15px 20px;
+      text-align: left;
+      font-weight: bold;
+      font-size: 1.3rem;
+      color: #333;
+      border-bottom: 2px solid #333;
+      background-color: #f5f5f5;
+    }
+    
+    #itemTable td {
+      padding: 12px 20px;
+      text-align: left;
+      font-size: 1.3rem;
+      color: #333;
+      border-bottom: 1px solid #eee;
+    }
+    
+    #itemTable tbody tr {
+      border-left: 1px solid #eee;
+      border-right: 1px solid #eee;
+    }
+    
+    #itemTable thead tr th:not(:last-child),
+    #itemTable tbody tr td:not(:last-child) {
+      border-right: 1px solid #eee;
+    }
+
+    .total-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      margin-top: 0;
+      border-left: 1px solid #eee;
+      border-right: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+      border-top: 2px solid #333;
+      background-color: #f9f9f9;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    .total-label {
+      color: #333;
+    }
+
+    .total-amount {
+      color: #404160;
+      font-size: 1.3rem;
+    }
+
+    .bottom-left {
+      grid-column: 1;
+      grid-row: 3;
+      background-color: white;
+      border-right: 0.15rem solid #1f2a5a;
+    }
+
+    .bottom-right {
+      grid-column: 2;
+      grid-row: 3;
+      background-color: #404160;
+    }
+
+    .signatures {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 2rem 2rem 3rem 2rem;
+      gap: 6rem;
+      margin-top: auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .signatures .person {
+      text-align: center;
+    }
+
+    .signatures .name {
+      font-weight: bold;
+      font-size: 1em;
+      margin-bottom: 0.5rem;
+      color: #000;
+    }
+
+    .signatures .role {
+      font-size: 0.9em;
+      color: #000;
+    }
+
+    /* Responsive adjustments */
+    @media screen and (max-width: 768px) {
+      .container {
+        grid-template-columns: 12rem 1fr;
+        max-width: 95vw;
+        max-height: 95vh;
+        margin: 1rem auto;
+      }
+      
+      .middle-left .title {
+        font-size: 1em;
+      }
+      
+      .middle-left .subtitle {
+        font-size: 0.8em;
+      }
+      
+      .signatures {
+        padding: 1rem;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+    }
+
+    @media screen and (max-height: 600px) {
+      .container {
+        height: auto;
+        min-height: 400px;
+      }
+    }
+
+    /* @media print {
+      .container {
+        border: none;
+        max-width: none;
+        margin: 0;
+      } */
+      
+      /* body {
+        font-size: 12pt;
+      } */
+    /* } */
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Top Left (White) -->
+    <div class="top-left"></div>
+    
+    <!-- Top Right (Blue) -->
+    <div class="top-right"></div>
+    
+    <!-- Middle Left (Sidebar with vertical text) -->
+    <div class="middle-left">
+      <div class="title">Expense<br/> Report</div>
+      <div class="subtitle">
+        <div class="union-name">FREE STUDENTS' UNION</div>
+        <div class="campus">Pulchowk Campus</div>
+        <div class="location">Pulchowk, Lalitpur</div>
+      </div>
+    </div>
+    
+    <!-- Middle Right (Main content with signatures) -->
+    <div class="middle-right">
+        <img src="{{url_for('static',filename='fsulogo.jpg')}}" alt="FSU Logo">
+      <div class="content">
+        <h1 id="billTitle">{{title}}</h1> 
+        <p id="billDate">{{date}}</p>
+        <table id="itemTable">
+          <thead>
+            <tr>
+                    <th>Date</th>
+                    <th>Category</th>
+                    <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in tableData %}
+            <tr>
+                <td>{{row[0]}}</td>
+                <td>{{row[1]}}</td>
+                <td>{{row[2]}}</td>
+            </tr>
+            {%endfor%}
+          </tbody>
+        </table>
+        <div class="total-section">
+          <div class="total-label">Total:</div>
+          <div class="total-amount" id="totalAmount">Rs. {{total}}</div>
+        </div>
+      </div>
+      
+      <div class="signatures">
+        <div class="person">
+          <hr>
+          <div class="name">Swoyam Shrestha</div>
+          <div class="role">President</div>
+        </div>
+        <div class="person">
+          <hr>
+          <div class="name">Albert Dhakal</div>
+          <div class="role">Treasurer</div>
+        </div>
+      </div>
+    </div>
+    <!-- Bottom Left (White) -->
+    <div class="bottom-left"></div>
+    
+    <!-- Bottom Right (Blue) -->
+    <div class="bottom-right"></div>
+  </div>
+ <a href="{{downloadLink}}" download>{{downloadName}}</a>
+  
+  <script src="billPage.js"></script>
+  <script>
+
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Item List Manager</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+</head>
+<body>
+    <div class="container">
+        <h1>Bill Generator</h1>
+        
+        <!-- Bill Information Form -->
+        <div class="bill-info">
+            <h2>Bill Information</h2>
+            <div class="form-group">
+                <label for="billTitle">Bill Title:</label>
+                <input type="text" id="billTitle" name="billTitle" placeholder="e.g., Expense Report, Invoice" required>
+            </div>
+            <div class="form-group">
+                <label for="billDate">Bill Date:</label>
+                <input type="date" id="billDate" name="billDate" required>
+            </div>
+        </div>
+
+        <!-- Item Entry Form -->
+        <h2>Add Items</h2>
+        <form id="itemForm">
+            <div class="form-group">
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+            <div class="form-group">
+                <label for="category">Category:</label>
+                <input type="text" id="category" name="category" placeholder="e.g., Food, Transport, Supplies" required>
+            </div>
+            <div class="form-group">
+                <label for="amount">Amount:</label>
+                <input type="number" id="amount" name="amount" min="0" step="0.01" required>
+            </div>
+            <button type="submit">Add to List</button>
+        </form>
+
+        <h2>Item List</h2>
+        <table id="itemTable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Items will be added here -->
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total:</td>
+                    <td class="total-amount">Rs. <span id="totalCost">0.00</span></td>
+                    <td onclick="generateBill()">Generate Bill</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <script src="{{url_for('static',filename='javascript.js')}}"></script>
+    <script src="billPage.js"></script>
+</body>
+</html>
