@@ -27,8 +27,8 @@
       grid-template-rows: 7rem 1fr 7rem;
       width: 210mm;
       height: 297mm;
-      max-width: 90vw;
-      max-height: 90vh;
+      max-width: 95vw;
+      max-height: 95vh;
       margin: 2rem auto;
       border: 0.2rem solid #404160;
       background: white;
@@ -136,9 +136,9 @@
 
     #billTitle{
       text-align: center;
-      font-size: 2.5rem;
+      font-size: 2rem;
       font-weight: bold;
-      margin: 1.5rem 0 0.5rem 0;
+      margin: 1rem 0 0.5rem 0;
       color: #000;
 
     }
@@ -164,7 +164,7 @@
       padding: 15px 20px;
       text-align: left;
       font-weight: bold;
-      font-size: 1.3rem;
+      font-size: 1.1rem;
       color: #333;
       border-bottom: 2px solid #333;
       background-color: #f5f5f5;
@@ -173,7 +173,7 @@
     #itemTable td {
       padding: 12px 20px;
       text-align: left;
-      font-size: 1.3rem;
+      font-size: 1rem;
       color: #333;
       border-bottom: 1px solid #eee;
     }
@@ -200,7 +200,7 @@
       border-top: 2px solid #333;
       background-color: #f9f9f9;
       font-weight: bold;
-      font-size: 1.1rem;
+      font-size: 0.9rem;
     }
 
     .total-label {
@@ -209,7 +209,7 @@
 
     .total-amount {
       color: #404160;
-      font-size: 1.3rem;
+      font-size: 1.1rem;
     }
 
     .bottom-left {
@@ -267,6 +267,9 @@
       
       .middle-left .subtitle {
         font-size: 0.8em;
+      }
+      .belowDate{
+        font-size: small;
       }
       
       .signatures {
@@ -332,10 +335,10 @@
           <tbody>
             {% for row in tableData %}
             <tr>
-                <td>{{row[0]}}</td>
+                <td class="belowDate">{{row[0][5:]}}</td>
                 <td>{{row[1]}}</td>
-                <td>{{row[3]}}</td>
                 <td>{{row[2]}}</td>
+                <td>{{row[3]}}</td>
             </tr>
             {%endfor%}
           </tbody>
