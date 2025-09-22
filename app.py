@@ -7,7 +7,7 @@ app.secret_key = "##$$"
 
 @app.route('/')
 def index():
-    return render_template('index.html') 
+    return render_template('Index.html') 
 
 @app.route('/generate-bill',methods=['POST'])
 def parlament():
