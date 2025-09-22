@@ -144,6 +144,7 @@ function generateBill() {
     const form = document.createElement('form');
     form.method = 'POST';
     form.action = '/generate-bill';
+    form.enctype = 'multipart/form-data'; // Important for file uploads
 
     // Add all fields as hidden inputs
     for (const key in data) {
@@ -151,17 +152,31 @@ function generateBill() {
         input.type = 'hidden';
         input.name = key;
 
-        // If value is an object/array, stringify it
         if (typeof data[key] === "object") {
             input.value = JSON.stringify(data[key]);
         } else {
             input.value = data[key];
         }
 
-        // Optional: show in HTML for debugging
-        input.setAttribute('data-debug', input.value); // you can see value in inspector
+        // Optional debug attribute
+        input.setAttribute('data-debug', input.value);
         form.appendChild(input);
     }
+
+    // Add all file inputs
+    const fileInputs = document.querySelectorAll('input[type="file"][name="supportingImages"]');
+    fileInputs.forEach((fileInput, index) => {
+        if (fileInput.files.length > 0) {
+            const clonedInput = fileInput.cloneNode();
+            clonedInput.name = `supportingImage_${index}`; // Unique name per file
+            form.appendChild(clonedInput);
+
+            // Transfer the file to the cloned input
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(fileInput.files[0]);
+            clonedInput.files = dataTransfer.files;
+        }
+    });
 
     // Append the form to the document and submit
     document.body.appendChild(form);

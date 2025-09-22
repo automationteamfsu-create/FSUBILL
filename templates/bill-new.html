@@ -381,6 +381,12 @@
     <div class="bottom-right"></div>
   </div>
 
+  {% for img in images %}
+        <div>
+            <img src="data:{{ img.mime_type }};base64,{{ img.data }}" alt="{{ img.filename }}" >
+        </div>
+    {% endfor %}
+
   
   <script src="billPage.js"></script>
   <script>

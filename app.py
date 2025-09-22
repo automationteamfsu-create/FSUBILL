@@ -1,3 +1,4 @@
+import base64
 import json
 from flask import Flask,render_template,request,make_response
 import requests
@@ -27,6 +28,22 @@ def parlament():
         
         total = sum([float(i[3]) for i in list_of_lists])
         print(list_of_lists)
+
+
+        # image creation
+        images_base64 = []  # list of dicts {filename, mime_type, data}
+        for key in request.files:
+            file = request.files[key]
+            file_bytes = file.read()
+            encoded_str = base64.b64encode(file_bytes).decode("utf-8")
+            mime_type = file.mimetype  
+            images_base64.append({
+                "filename": file.filename,
+                "mime_type": mime_type,
+                "data": encoded_str
+            })
+        print(images_base64)
+
         
         # rd = 
         # pdf = HTML(string=rd).write_pdf()
@@ -35,7 +52,7 @@ def parlament():
         # response.headers['Content-Disposition'] = 'inline; filename=page.pdf'
         url = "https://api.pdfendpoint.com/v1/convert"
         
-        rd = render_template('bill-new.html', title=title, date=date, tableData=list_of_lists, total=total, downloadLink="", downloadName="")
+        rd = render_template('bill-new.html', title=title, date=date, tableData=list_of_lists, total=total, downloadLink="", downloadName="",images=images_base64)
         
         payload = {
             "html": rd,
@@ -53,7 +70,7 @@ def parlament():
         response = requests.request("POST", url, json=payload, headers=headers)
         aa = (response.json()['data']['url'])
         
-        return render_template('bill-new.html', title=title, date=date, tableData=list_of_lists, total=total, downloadLink=aa, downloadName="Download? Zoom out if you can't see complete tabel ")
+        return render_template('bill-new.html', title=title, date=date, tableData=list_of_lists, total=total, downloadLink=aa, downloadName="Download? Zoom out if you can't see complete tabel ",images=images_base64)
 
 
 

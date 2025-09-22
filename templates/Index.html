@@ -65,9 +65,49 @@
                 </tr>
             </tfoot>
         </table>
+
+    
+<h2>Upload Supporting Images</h2>
+
+  <div id="fileInputsContainer">
+    <!-- Initial file input with remove button -->
+    <div class="file-input-group">
+      <label for="supportingImage1">Upload Image:</label>
+      <input type="file" id="supportingImage1" name="supportingImages" accept="image/*">
+      <button type="button" onclick="removeFileInput(this)" class="remove-file-btn">Remove</button>
     </div>
+  </div>
+
+  <button type="button" onclick="addFileInput()">Add Another Image</button>
+  
 
     <script src="{{url_for('static',filename='javascript.js')}}"></script>
     <script src="billPage.js"></script>
+  <script>
+    let fileCounter = 1;
+
+    function addFileInput() {
+      fileCounter++;
+      const container = document.getElementById('fileInputsContainer');
+
+      const newFileGroup = document.createElement('div');
+      newFileGroup.className = 'file-input-group';
+      newFileGroup.innerHTML = `
+        <label for="supportingImage${fileCounter}">Upload Image:</label>
+        <input type="file" id="supportingImage${fileCounter}" name="supportingImages" accept="image/*">
+        <button type="button" onclick="removeFileInput(this)" class="remove-file-btn">Remove</button>
+      `;
+
+      container.appendChild(newFileGroup);
+    }
+
+    function removeFileInput(button) {
+      button.parentElement.remove();
+    }
+
+    // Make globally available if needed elsewhere
+    window.addFileInput = addFileInput;
+    window.removeFileInput = removeFileInput;
+  </script>
 </body>
 </html>
