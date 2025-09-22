@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let total = 0;
         
         for (let i = 0; i < rows.length; i++) {
-            const amountCell = rows[i].getElementsByTagName('td')[2];
+            const amountCell = rows[i].getElementsByTagName('td')[3]; // Changed from index 2 to 3
             if (amountCell) {
                 total += parseFloat(amountCell.innerText) || 0;
             }
@@ -42,10 +42,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // Get form values
         const date = document.getElementById('date').value;
         const category = document.getElementById('category').value;
+        const description = document.getElementById('description').value; // Added description
         const amount = parseFloat(document.getElementById('amount').value);
 
         // Validate inputs
-        if (!date || !category || isNaN(amount)) {
+        if (!date || !category || !description || isNaN(amount)) { // Added description validation
             alert('Please fill in all fields correctly.');
             return;
         }
@@ -57,10 +58,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add cells with data
         newRow.insertCell(0).innerText = date;
         newRow.insertCell(1).innerText = category;
-        newRow.insertCell(2).innerText = amount.toFixed(2);
+        newRow.insertCell(2).innerText = description; // Added description cell
+        newRow.insertCell(3).innerText = amount.toFixed(2); // Amount moved to index 3
         
         // Add delete button
-        const actionsCell = newRow.insertCell(3);
+        const actionsCell = newRow.insertCell(4); // Actions moved to index 4
         actionsCell.innerHTML = '<button onclick="deleteRow(this)" class="delete-btn">Delete</button>';
 
         // Update total cost
@@ -156,4 +158,4 @@ for (const key in data) {
 document.body.appendChild(form);
 form.submit();
 
-}    
+}
