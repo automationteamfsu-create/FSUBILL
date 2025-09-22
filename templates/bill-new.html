@@ -27,6 +27,7 @@
       grid-template-rows: 7rem 1fr 7rem;
       width: 210mm;
       height: 297mm;
+     
       max-width: 95vw;
       max-height: 95vh;
       margin: 2rem auto;
@@ -62,6 +63,7 @@
       justify-content: space-around;
       padding: 2rem 1rem;
       position: relative;
+       
     }
 
     .middle-left .title {
@@ -153,6 +155,7 @@
     }
 
     #itemTable{
+
       width: 100%;
       border-collapse: collapse;
       margin-bottom: 0;
@@ -297,9 +300,18 @@
         font-size: 12pt;
       } */
     /* } */
+
+    #dlink{
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-size: large;
+      color: khaki;
+  
+    }
   </style>
 </head>
 <body>
+
+   <center><a id='dlink'href="{{downloadLink}}" download>{{downloadName}}</a></center>
   <div class="container">
     <!-- Top Left (White) -->
     <div class="top-left"></div>
@@ -368,7 +380,7 @@
     <!-- Bottom Right (Blue) -->
     <div class="bottom-right"></div>
   </div>
- <a href="{{downloadLink}}" download>{{downloadName}}</a>
+
   
   <script src="billPage.js"></script>
   <script>
