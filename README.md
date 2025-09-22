@@ -1,9 +1,13 @@
 From FSU Automation Team
 
 --meyan 22 september
-    -fixed the download button \n
-    -made a description column \n
-    -fsu logo wasn't appearing on the backgorund, fixed it by hosting the image somehwere else \nin the internet
+    -fixed the download button 
+
+    -made a description column
+
+    -fsu logo wasn't appearing on the backgorund, fixed it by hosting the image somehwere else
+    
+    in the internet
 
 
 todo:
