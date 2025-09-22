@@ -10,6 +10,8 @@ From FSU Automation Team
     
     in the internet
 
+    -made such that we can upload images and using base64 encdoing visible on the pdf
+
 
 todo:
 --fix design issues(thoria matrai aune viewing page ma maybe gap ra font size thulo bhayera ho )
