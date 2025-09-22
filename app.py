@@ -1,3 +1,4 @@
+import json
 from flask import Flask,render_template,request,make_response
 import requests
 # from weasyprint import HTML
@@ -13,21 +14,16 @@ def index():
 def parlament():
     '''cuz bill maker'''
     if request.method == "POST":
-        title = request.form['title']
-        date = request.form['date']
-        
+        title = request.form.get('title')
+        date = request.form.get('date')
+      
         table_values = request.form['table'].split(",")
+        table_json = request.form.get('table')  # This is JSON string
+
+        table_values = json.loads(table_json)  
         print(table_values)
-        list_of_lists = []
-        temp = []
+        list_of_lists =table_values
         
-        for i in range(0, len(table_values), 5):
-            temp.append(table_values[i])      # Date
-            temp.append(table_values[i+1])   # Category
-            temp.append(table_values[i+2])   # Description
-            temp.append(table_values[i+3])   # Amount
-            list_of_lists.append(temp)
-            temp = []
         
         total = sum([float(i[3]) for i in list_of_lists])
         print(list_of_lists)

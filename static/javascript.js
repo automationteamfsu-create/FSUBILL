@@ -116,46 +116,54 @@ function generateBill() {
         return;
     }
     
-    // Store complete data in localStorage
-   const rows = tableBody.querySelectorAll("tr");
-const tableData = [];
+    // Collect table data
+    const rows = tableBody.querySelectorAll("tr");
+    const tableData = [];
 
-rows.forEach(row => {
-  const cells = row.querySelectorAll("td");
-  const rowData = [];
+    rows.forEach(row => {
+        const cells = row.querySelectorAll("td");
+        const rowData = [];
 
-  cells.forEach(cell => {
-    rowData.push(cell.innerText.trim()); // get text only
-  });
+        cells.forEach(cell => {
+            rowData.push(cell.innerText.trim()); // Get text only
+        });
 
-  tableData.push(rowData);
-});
+        tableData.push(rowData);
+    });
 
-const data = {
-  title: billTitle,
-  date: billDate,
-  table: tableData  // now an array of arrays
-};
+    // Create data object
+    const data = {
+        title: billTitle,
+        date: billDate,
+        table: tableData  // array of arrays
+    };
 
-console.log("Data to send:", data);
+    console.log("Data to send:", data);
 
-// Create a form dynamically
-const form = document.createElement('form');
-form.method = 'POST';
-form.action = '/generate-bill';
+    // Create a form dynamically
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/generate-bill';
 
-// Add all fields
-for (const key in data) {
-    
-  const input = document.createElement('input');
-  input.type = 'hidden';
-  input.name = key;
-  input.value = data[key];
-  form.appendChild(input);
-}
+    // Add all fields as hidden inputs
+    for (const key in data) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
 
-// Must add to document to submit
-document.body.appendChild(form);
-form.submit();
+        // If value is an object/array, stringify it
+        if (typeof data[key] === "object") {
+            input.value = JSON.stringify(data[key]);
+        } else {
+            input.value = data[key];
+        }
 
+        // Optional: show in HTML for debugging
+        input.setAttribute('data-debug', input.value); // you can see value in inspector
+        form.appendChild(input);
+    }
+
+    // Append the form to the document and submit
+    document.body.appendChild(form);
+    form.submit();
 }
