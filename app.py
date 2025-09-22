@@ -75,8 +75,3 @@ def parlament():
 
 
 
-
-
-    
-
-app.run(debug=True)
