@@ -33,6 +33,10 @@
                 <input type="text" id="category" name="category" placeholder="e.g., Food, Transport, Supplies" required>
             </div>
             <div class="form-group">
+                <label for="description">Description:</label>
+                <input type="text" id="description" name="description" placeholder="e.g., Lunch at restaurant, Bus fare" required>
+            </div>
+            <div class="form-group">
                 <label for="amount">Amount:</label>
                 <input type="number" id="amount" name="amount" min="0" step="0.01" required>
             </div>
@@ -45,6 +49,7 @@
                 <tr>
                     <th>Date</th>
                     <th>Category</th>
+                    <th>Description</th>
                     <th>Amount</th>
                     <th>Actions</th>
                 </tr>
@@ -54,7 +59,7 @@
             </tbody>
             <tfoot>
                 <tr class="total-row">
-                    <td colspan="2" class="total-label">Total:</td>
+                    <td colspan="3" class="total-label">Total:</td>
                     <td class="total-amount">Rs. <span id="totalCost">0.00</span></td>
                     <td onclick="generateBill()">Generate Bill</td>
                 </tr>
