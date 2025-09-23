@@ -71,8 +71,4 @@ def parlament():
         aa = (response.json()['data']['url'])
         
         return render_template('bill-new.html', title=title, date=date, tableData=list_of_lists, total=total, downloadLink=aa, downloadName="Download? Zoom out if you can't see complete tabel ",images=images_base64)
-if __name__ == "__main__":
-    app.run(debug=True)
-
-
 
