@@ -26,7 +26,7 @@ def parlament():
         list_of_lists =table_values
         
         
-        total = sum([float(i[3]) for i in list_of_lists])
+        total = sum([float(i[5]) for i in list_of_lists])
         print(list_of_lists)
 
 
@@ -56,10 +56,10 @@ def parlament():
         
         payload = {
             "html": rd,
-            "margin_top": "0.5cm",
-            "margin_bottom": "0.5cm",
-            "margin_right": "0.5cm",
-            "margin_left": "0.5cm",
+            "margin_top": "0cm",
+            "margin_bottom": "0cm",
+            "margin_right": "0cm",
+            "margin_left": "0cm",
             "no_backgrounds": False
         }
         headers = {
@@ -71,7 +71,8 @@ def parlament():
         aa = (response.json()['data']['url'])
         
         return render_template('bill-new.html', title=title, date=date, tableData=list_of_lists, total=total, downloadLink=aa, downloadName="Download? Zoom out if you can't see complete tabel ",images=images_base64)
-
+if __name__ == "__main__":
+    app.run(debug=True)
 
 
 
