@@ -255,6 +255,24 @@
       color: #000;
     }
 
+    /* Uploaded images styling */
+    .uploaded-image-container {
+      margin: 0.5rem 0;
+      text-align: center;
+      page-break-inside: avoid;
+    }
+
+    .uploaded-image {
+      max-width: 200mm;
+      max-height: 280mm; 
+      width: auto;
+      height: auto;
+      object-fit: contain; /* Maintain aspect ratio */
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
     /* Responsive adjustments */
     @media screen and (max-width: 768px) {
       .container {
@@ -386,8 +404,8 @@
   </div>
 
   {% for img in images %}
-        <div>
-            <img src="data:{{ img.mime_type }};base64,{{ img.data }}" alt="{{ img.filename }}" >
+        <div class="uploaded-image-container">
+            <img src="data:{{ img.mime_type }};base64,{{ img.data }}" alt="{{ img.filename }}" class="uploaded-image">
         </div>
     {% endfor %}
 
