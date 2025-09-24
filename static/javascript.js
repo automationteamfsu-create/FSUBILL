@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let total = 0;
         
         for (let i = 0; i < rows.length; i++) {
-            const amountCell = rows[i].getElementsByTagName('td')[3]; // Changed from index 2 to 3
+            const amountCell = rows[i].getElementsByTagName('td')[5]; // Changed from index 2 to 3
             if (amountCell) {
                 total += parseFloat(amountCell.innerText) || 0;
             }
@@ -43,10 +43,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const date = document.getElementById('date').value;
         const category = document.getElementById('category').value;
         const description = document.getElementById('description').value; // Added description
-        const amount = parseFloat(document.getElementById('amount').value);
+        const quantity = parseFloat(document.getElementById('quantity').value);
+        const price = parseFloat(document.getElementById('price').value);
+        const amount = quantity * price;
 
         // Validate inputs
-        if (!date || !category || !description || isNaN(amount)) { // Added description validation
+        if (!date || !category || !description || isNaN(quantity) || isNaN(price)) { // Added description validation
             alert('Please fill in all fields correctly.');
             return;
         }
@@ -59,10 +61,12 @@ document.addEventListener('DOMContentLoaded', function() {
         newRow.insertCell(0).innerText = date;
         newRow.insertCell(1).innerText = category;
         newRow.insertCell(2).innerText = description; // Added description cell
-        newRow.insertCell(3).innerText = amount.toFixed(2); // Amount moved to index 3
-        
+        newRow.insertCell(3).innerText = quantity; // Quantity moved to index 3
+        newRow.insertCell(4).innerText = price.toFixed(2); // Price moved to index 4
+        newRow.insertCell(5).innerText = amount.toFixed(2); // Amount moved to index 5
+
         // Add delete button
-        const actionsCell = newRow.insertCell(4); // Actions moved to index 4
+        const actionsCell = newRow.insertCell(6); // Actions moved to index 6
         actionsCell.innerHTML = '<button onclick="deleteRow(this)" class="delete-btn">Delete</button>';
 
         // Update total cost
