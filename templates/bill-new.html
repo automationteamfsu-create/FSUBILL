@@ -242,7 +242,6 @@
     .signatures .person {
       text-align: center;
     }
-
     .signatures .name {
       font-weight: bold;
       font-size: 1em;
@@ -253,6 +252,24 @@
     .signatures .role {
       font-size: 0.9em;
       color: #000;
+    }
+
+    /* Uploaded images styling */
+    .uploaded-image-container {
+      margin: 0.5rem 0;
+      text-align: center;
+      page-break-inside: avoid;
+    }
+
+    .uploaded-image {
+      max-width: 200mm;
+      max-height: 280mm; 
+      width: auto;
+      height: auto;
+      object-fit: contain; /* Maintain aspect ratio */
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
     /* Responsive adjustments */
@@ -304,14 +321,15 @@
     #dlink{
       font-family: Verdana, Geneva, Tahoma, sans-serif;
       font-size: large;
-      color: khaki;
+      color: green;
+
   
     }
   </style>
 </head>
 <body>
 
-   <center><a id='dlink'href="{{downloadLink}}" download>{{downloadName}}</a></center>
+   <center><a id='dlink' href="{{downloadLink}}"  download>{{downloadName}}</a></center>
   <div class="container">
     <!-- Top Left (White) -->
     <div class="top-left"></div>
@@ -321,7 +339,7 @@
     
     <!-- Middle Left (Sidebar with vertical text) -->
     <div class="middle-left">
-      <div class="title">Expense<br/> Report</div>
+      <div class="title">EXPENSE<br/> REPORT</div>
       <div class="subtitle">
         <div class="union-name">FREE STUDENTS' UNION</div>
         <div class="campus">Pulchowk Campus</div>
@@ -396,10 +414,7 @@
 
   
   <script src="billPage.js"></script>
-  <script>
-
-
-  </script>
+  
 </body>
 
 </html>

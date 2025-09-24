@@ -75,6 +75,9 @@ def parlament():
         }
         
         response = requests.request("POST", url, json=payload, headers=headers)
+   
+        print(response.json())
+     
         aa = (response.json()['data']['url'])
 
         data_pdf  = requests.get(aa)
