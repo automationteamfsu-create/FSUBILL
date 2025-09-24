@@ -1,8 +1,10 @@
 import base64
 import json
-from flask import Flask,render_template,request,make_response
+from flask import Flask,render_template,request,make_response,url_for,send_file
 import requests
-# from weasyprint import HTML
+from pdf2image import convert_from_bytes
+from io import BytesIO
+ # from weasyprint import HTML
 
 app = Flask(__name__)
 app.secret_key = "##$$"
@@ -10,6 +12,9 @@ app.secret_key = "##$$"
 @app.route('/')
 def index():
     return render_template('Index.html') 
+
+
+
 
 @app.route('/generate-bill',methods=['POST'])
 def parlament():
@@ -42,7 +47,7 @@ def parlament():
                 "mime_type": mime_type,
                 "data": encoded_str
             })
-        print(images_base64)
+       
 
         
         # rd = 
@@ -60,15 +65,33 @@ def parlament():
             "margin_bottom": "0cm",
             "margin_right": "0cm",
             "margin_left": "0cm",
-            "no_backgrounds": False
+            'sandbox':True,
+            "no_backgrounds": False,
+            
         }
         headers = {
             "Content-Type": "application/json",
-            "Authorization": "Bearer pdfe_live_3f5c47f0986702d27263684a8730f65f2630"
+            "Authorization": "Bearer pdfe_live_e2386b010bda9ea889d9a1dc16cb9cd41076"
         }
         
         response = requests.request("POST", url, json=payload, headers=headers)
+   
+        print(response.json())
+     
         aa = (response.json()['data']['url'])
-        
-        return render_template('bill-new.html', title=title, date=date, tableData=list_of_lists, total=total, downloadLink=aa, downloadName="Download? Zoom out if you can't see complete tabel ",images=images_base64)
+
+        data_pdf  = requests.get(aa)
+        pages = convert_from_bytes(data_pdf.content,dpi=1000)
+
+        img_io  = BytesIO()
+        pages[0].save(img_io,format="PNG")
+        # pages[0].save('L.png',"PNG")
+
+        encoded_str = base64.b64encode(img_io.getvalue()).decode("utf-8")
+        images_base64.append({
+                "filename": 'firstpage.png',
+                "mime_type": 'image/png',
+                "data": encoded_str
+            })
+        return render_template('bill-new.html', title=title, date=date, tableData=list_of_lists, total=total, downloadLink=aa, downloadName="Download? Zoom out if you can't see complete table!.\nScroll Below to see your images and press it to download (your first page picture is also there)",images=images_base64)
 
