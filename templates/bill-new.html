@@ -387,8 +387,11 @@
 
   {% for img in images %}
         <div>
-            <img src="data:{{ img.mime_type }};base64,{{ img.data }}" alt="{{ img.filename }}" >
-        </div>
+    <a href="data:{{ img.mime_type }};base64,{{ img.data }}" download="{{ img.filename }}">
+        <img src="data:{{ img.mime_type }};base64,{{ img.data }}" alt="{{ img.filename }}">
+    </a>
+</div>
+
     {% endfor %}
 
   
