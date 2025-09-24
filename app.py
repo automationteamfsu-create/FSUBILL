@@ -60,7 +60,8 @@ def parlament():
             "margin_bottom": "0cm",
             "margin_right": "0cm",
             "margin_left": "0cm",
-            "no_backgrounds": False
+            "no_backgrounds": False,
+            "sandbox": True,
         }
         headers = {
             "Content-Type": "application/json",
@@ -68,9 +69,9 @@ def parlament():
         }
         
         response = requests.request("POST", url, json=payload, headers=headers)
-        print("HELLO THERE IS ERROR BELOW")
+   
         print(response.json())
-        print("HELLO THERE IS ERROR ABOVE")
+     
         aa = (response.json()['data']['url'])
         
-        return render_template('bill-new.html', title=title, date=date, tableData=list_of_lists, total=total, downloadLink=aa, downloadName="Download? Zoom out if you can't see complete tabel ",images=images_base64)
+        return render_template('bill-new.html', title=title, date=date, tableData=list_of_lists, total=total, downloadLink=aa, downloadName="Download? Zoom out if you can't see complete table ",images=images_base64)
