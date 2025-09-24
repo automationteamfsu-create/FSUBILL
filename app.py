@@ -93,5 +93,5 @@ def parlament():
                 "mime_type": 'image/png',
                 "data": encoded_str
             })
-        return render_template('bill-new.html', title=title, date=date, tableData=list_of_lists, total=total, downloadLink=aa, downloadName="Download? Zoom out if you can't see complete table!",images=images_base64)
+        return render_template('bill-new.html', title=title, date=date, tableData=list_of_lists, total=total, downloadLink=aa, downloadName="Download? Zoom out if you can't see complete table!.\nScroll Below to see your images and press it to download (your first page picture is also there)",images=images_base64)
 
