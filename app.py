@@ -1,10 +1,9 @@
 import base64
 import json
-from flask import Flask,render_template,request,make_response,url_for,send_file
+from flask import Flask, render_template, request
 import requests
-from pdf2image import convert_from_bytes
+import fitz  # PyMuPDF
 from io import BytesIO
- # from weasyprint import HTML
 
 app = Flask(__name__)
 app.secret_key = "##$$"
@@ -13,10 +12,7 @@ app.secret_key = "##$$"
 def index():
     return render_template('Index.html') 
 
-
-
-
-@app.route('/generate-bill',methods=['POST'])
+@app.route('/generate-bill', methods=['POST'])
 def parlament():
     '''cuz bill maker'''
     if request.method == "POST":
@@ -28,12 +24,10 @@ def parlament():
 
         table_values = json.loads(table_json)  
         print(table_values)
-        list_of_lists =table_values
-        
+        list_of_lists = table_values
         
         total = sum([float(i[5]) for i in list_of_lists])
         print(list_of_lists)
-
 
         # image creation
         images_base64 = []  # list of dicts {filename, mime_type, data}
@@ -47,17 +41,19 @@ def parlament():
                 "mime_type": mime_type,
                 "data": encoded_str
             })
-       
 
-        
-        # rd = 
-        # pdf = HTML(string=rd).write_pdf()
-        # response=  make_response(pdf)
-        # response.headers['Content-Type'] = 'application/pdf'
-        # response.headers['Content-Disposition'] = 'inline; filename=page.pdf'
         url = "https://api.pdfendpoint.com/v1/convert"
         
-        rd = render_template('bill-new.html', title=title, date=date, tableData=list_of_lists, total=total, downloadLink="", downloadName="",images=images_base64)
+        rd = render_template(
+            'bill-new.html',
+            title=title,
+            date=date,
+            tableData=list_of_lists,
+            total=total,
+            downloadLink="",
+            downloadName="",
+            images=images_base64
+        )
         
         payload = {
             "html": rd,
@@ -65,9 +61,8 @@ def parlament():
             "margin_bottom": "0cm",
             "margin_right": "0cm",
             "margin_left": "0cm",
-            'sandbox':True,
+            'sandbox': True,
             "no_backgrounds": False,
-            
         }
         headers = {
             "Content-Type": "application/json",
@@ -75,23 +70,32 @@ def parlament():
         }
         
         response = requests.request("POST", url, json=payload, headers=headers)
-   
         print(response.json())
      
         aa = (response.json()['data']['url'])
 
-        data_pdf  = requests.get(aa)
-        pages = convert_from_bytes(data_pdf.content,dpi=1000)
+        data_pdf = requests.get(aa)
+        doc = fitz.open(stream=data_pdf.content, filetype="pdf")
+        page = doc[0]  # first page
+        pix = page.get_pixmap(dpi=300)
 
-        img_io  = BytesIO()
-        pages[0].save(img_io,format="PNG")
-        # pages[0].save('L.png',"PNG")
+        img_bytes = pix.tobytes("png")   # raw PNG bytes
+        img_io = BytesIO(img_bytes)      # wrap in BytesIO if needed
 
-        encoded_str = base64.b64encode(img_io.getvalue()).decode("utf-8")
+        encoded_str = base64.b64encode(img_bytes).decode("utf-8")
         images_base64.append({
-                "filename": 'firstpage.png',
-                "mime_type": 'image/png',
-                "data": encoded_str
-            })
-        return render_template('bill-new.html', title=title, date=date, tableData=list_of_lists, total=total, downloadLink=aa, downloadName="Download? Zoom out if you can't see complete table!.\nScroll Below to see your images and press it to download (your first page picture is also there)",images=images_base64)
+            "filename": 'firstpage.png',
+            "mime_type": 'image/png',
+            "data": encoded_str
+        })
 
+        return render_template(
+            'bill-new.html',
+            title=title,
+            date=date,
+            tableData=list_of_lists,
+            total=total,
+            downloadLink=aa,
+            downloadName="Download? Zoom out if you can't see complete table!.\nScroll Below to see your images and press it to download (your first page picture is also there)",
+            images=images_base64
+        )
