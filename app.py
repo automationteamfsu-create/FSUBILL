@@ -1,8 +1,9 @@
+#### Written by FSU Automation Team
 import base64
 import json
 from flask import Flask, render_template, request
 import requests
-import fitz  # PyMuPDF
+import fitz 
 from io import BytesIO
 
 app = Flask(__name__)
@@ -61,7 +62,7 @@ def parlament():
             "margin_bottom": "0cm",
             "margin_right": "0cm",
             "margin_left": "0cm",
-            'sandbox': True,
+            # 'sandbox': True,
             "no_backgrounds": False,
         }
         headers = {
