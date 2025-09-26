@@ -1,8 +1,9 @@
+#### Written by FSU Automation Team
 import base64
 import json
 from flask import Flask, render_template, request
 import requests
-import fitz  # PyMuPDF
+import fitz 
 from io import BytesIO
 
 app = Flask(__name__)
