@@ -229,19 +229,37 @@
     }
 
     .signatures {
+      height: fit-content;
       display: flex;
-      justify-content: space-around;
-      align-items: center;
-      padding: 2rem 2rem 3rem 2rem;
-      gap: 6rem;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding: 2rem 4rem 3rem 4rem;
       margin-top: auto;
-      position: relative;
       z-index: 1;
     }
 
     .signatures .person {
       text-align: center;
     }
+    .signatureHolderSwoyam{
+      height: 70px;
+      width: 150px;
+      margin-bottom: 0.5rem;
+      background-image: url('../static/swoyamSig.jpg');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    .signatureHolderAlbert{
+      height: 70px;
+      width: 150px;
+      margin-bottom: 0.5rem;
+      background-image: url('../static/albertSig.jpg');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    
     .signatures .name {
       font-weight: bold;
       font-size: 1em;
@@ -385,11 +403,15 @@
       
       <div class="signatures">
         <div class="person">
-          <hr>
+          <!-- <img src="../static/swoyamSig.jpg" class="signature-img" alt="swoyamSig" width="150px" height="70px">
+           -->
+          <div class="signatureHolderSwoyam"></div>
+           <hr>
           <div class="name">Swoyam Shrestha</div>
           <div class="role">President</div>
         </div>
         <div class="person">
+          <div class="signatureHolderAlbert"></div>
           <hr>
           <div class="name">Albert Dhakal</div>
           <div class="role">Treasurer</div>
@@ -406,7 +428,7 @@
   {% for img in images %}
         <div>
     <a href="data:{{ img.mime_type }};base64,{{ img.data }}" download="{{ img.filename }}">
-       <center> <img src="data:{{ img.mime_type }};base64,{{ img.data }}" alt="{{ img.filename }}" width="1200px" height="1000px"></center>
+       <center> <img src="data:{{ img.mime_type }};base64,{{ img.data }}" class="uploaded-image" alt="{{ img.filename }}" width="1200px" height="1000px"></center>
     </a>
 </div>
 

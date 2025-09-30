@@ -62,7 +62,7 @@ def parlament():
             "margin_bottom": "0cm",
             "margin_right": "0cm",
             "margin_left": "0cm",
-            # 'sandbox': True,
+            'sandbox': True,
             "no_backgrounds": False,
         }
         headers = {
@@ -100,3 +100,5 @@ def parlament():
             downloadName="Download? Zoom out if you can't see complete table!.\nScroll Below to see your images and press it to download (your first page picture is also there)",
             images=images_base64
         )
+if __name__ == '__main__':
+    app.run(debug=True)
