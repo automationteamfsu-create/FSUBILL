@@ -62,7 +62,6 @@ def parlament():
             "margin_bottom": "0cm",
             "margin_right": "0cm",
             "margin_left": "0cm",
-            'sandbox': True,
             "no_backgrounds": False,
         }
         headers = {
