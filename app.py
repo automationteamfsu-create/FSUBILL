@@ -63,6 +63,8 @@ def parlament():
             "margin_right": "0cm",
             "margin_left": "0cm",
             "no_backgrounds": False,
+            "no_images":False,
+            "printBackground":True,
         }
         headers = {
             "Content-Type": "application/json",
