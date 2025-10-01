@@ -65,6 +65,7 @@ def parlament():
             "no_backgrounds": False,
             "no_images":False,
             "printBackground":True,
+            'sandbox':True
         }
         headers = {
             "Content-Type": "application/json",
